@@ -9,7 +9,7 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+  jcenter()
 }
 
 dependencies {
@@ -20,6 +20,7 @@ dependencies {
   compile 'org.sql2o:sql2o:1.5.4'
   compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2' // ADD ME FOR POSTGRES VERSION 10.x
 }
+
 
 applicationName = "herosamurai"
 mainClassName = "App"

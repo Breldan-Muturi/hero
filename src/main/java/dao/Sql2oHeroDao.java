@@ -85,5 +85,4 @@ public class Sql2oHeroDao implements HeroDao {
       System.out.println(ex);
     }
   }
-
 }

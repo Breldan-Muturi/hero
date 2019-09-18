@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS squads (
   cause VARCHAR
 );
 
-CREATE DATABASE herosamurai_test WITH TEMPLATE herosamurai;
+--CREATE DATABASE herosamurai_test WITH TEMPLATE herosamurai;

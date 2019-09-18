@@ -12,25 +12,21 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import static spark.Spark.*;
 
 public class App {
-  public static void main(String[] args) {
-    ProcessBuilder process = new ProcessBuilder();
-    Integer port;
-
-    // This tells our app that if Heroku sets a port for us, we need to use that port.
-    // Otherwise, if they do not, continue using port 4567.
-
-    if (process.environment().get("PORT") != null) {
-      port = Integer.parseInt(process.environment().get("PORT"));
-    } else {
-      port = 4567;
+  static int getHerokuAssignedPort() {
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    if (processBuilder.environment().get("PORT") != null) {
+      return Integer.parseInt(processBuilder.environment().get("PORT"));
     }
-
-    port(port);
+    return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+  }
+    public static void main(String[] args) {
+      port(getHerokuAssignedPort());
     staticFileLocation("/public");
 //    String h2 = "jdbc:h2:~/hero-samurai.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
-    String connectionString = "jdbc:postgresql://localhost:5432/herosamurai";
+//    String connectionString = "jdbc:postgresql://localhost:5432/herosamurai";
 //      ":~/hero-samurai.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
-    Sql2o sql2o = new Sql2o(connectionString, "turi", "Sunrise@1997");
+    String connectionString ="jdbc:postgresql://ec2-174-129-27-3.compute-1.amazonaws.com:5432/devp9q46hvbdon";
+    Sql2o sql2o = new Sql2o(connectionString, "lofccomwnrvapl", "759e4076e6b3e4263b0c03e7d34eabebd5141faba92bffe2db2fa1ad54547d66");
     Sql2oHeroDao heroDao = new Sql2oHeroDao(sql2o);
     Sql2oSquadDao squadDao = new Sql2oSquadDao(sql2o);
     Map<String,Object> model = new HashMap<>();
@@ -43,6 +39,7 @@ public class App {
       model.put("heroes", heroes);
       return new ModelAndView(model, "index.hbs");
     }, new HandlebarsTemplateEngine());
+
 
     //    get: add new squads
     get("/squads/new",(req,res)->{
